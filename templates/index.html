@@ -1,32 +1,61 @@
 <html>
 <head>
-    <title>Best store!</title>
+    <title>Work Experience</title>
     <script type="text/javascript" src="/static/update.js"></script>
     <link href="static/store.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1E90FF;
+            margin: 0;
+            padding: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        h1, h3 {
+            color: white;
+        }
+        form, ul {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        input, button {
+            margin: 5px 0;
+        }
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Furniture store:</h1>
-    <h3>Add new product:</h3>
+    <h1>Работа не волк, работа - work!</h1>
+    <h3>Список мест работы:</h3>
     <form>
         <div>
-            <input type="text" name="prod_name" id="prod_name">
-            <label for="prod_name">Product name</label>
+            <input type="text" name="company_name" id="company_name">
+            <label for="company_name">Место работы</label>
         </div>
         <div>
-            <input type="number" name="price" id="price">
-            <label for="price">Price (rub.)</label>
+            <input type="number" name="work_duration" id="work_duration">
+            <label for="work_duration">срок работы (в месяцах)</label>
         </div>
-        <button onClick="addProduct()">Add</button>
+        <button type="button" onClick="addCompany()">Добавить место работы</button>
+        <button type="button" onClick="clearCompanies()" style="margin-top: 10px; background-color: #ff4444; color: white;">Clear</button>
     </form>
     <ul>
-        {% for product in products_list %}
+        {% for company in companies_list %}
         <li>
             <div>
-                <div>{{ product['prod_name'] }}</div>
-                <div>{{ product['price'] }} rub.</div>
-                <input value="{{product['id']}}" onChange="updateProd(this)" name="in_stock" type="checkbox" {% if product.in_stock %} checked {% endif %}>
-                <label for="in_stock">In stock</label>
+                <div><strong>Место работы: {{ company.company_name }}</strong></div>
+                <div>Срок работы в месяцах: {{ company.work_duration }}</div>
+                <label>
+                    <input value="{{company.id}}" onChange="updateCompany(this)" name="is_current" type="checkbox" {% if company.is_current %} checked {% endif %}>
+                    Работаю на этой работе сейчас
+                </label>
             </div>
         </li>
         {% endfor %}
