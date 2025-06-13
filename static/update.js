@@ -1,22 +1,52 @@
-function updateProd(el) {
-    product_id = el.value
-    fetch('/in_stock/' + product_id, {
-        method: 'patch',
+function updateCompany(el) {
+    const company_id = el.value;
+    fetch('/current/' + company_id, {
+        method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'in_stock': el.checked})
+        body: JSON.stringify({'is_current': el.checked})
     })
-    console.log(product_id)
+    .then(response => {
+        if (!response.ok) {
+            console.error('Update failed');
+        }
+    });
 }
 
-function addProduct() {
-    let prodName = document.getElementById('prod_name').value
-    let price = document.getElementById('price').value
+function addCompany() {
+    let companyName = document.getElementById('company_name').value;
+    let duration = document.getElementById('work_duration').value;
+    
+    if (!companyName || !duration) {
+        alert('Все поля должны быть заполнены');
+        return;
+    }
+
     fetch('/add', {
-        method: 'post',
+        method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'prod_name': prodName,
-                             'price': price,
-                             'in_stock': true})
+        body: JSON.stringify({
+            'company_name': companyName,
+            'work_duration': duration,
+            'is_current': true
+        })
     })
-//    console.log("Add")
+    .then(response => {
+        if (response.ok) {
+            location.reload();
+        }
+    });
+}
+
+function clearCompanies() {
+    if (confirm("Вы уверены что хотите удалить?")) {
+        fetch('/clear', {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            }
+        });
+    }
 }
